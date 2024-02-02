@@ -9,23 +9,25 @@
 /* Begin PBXBuildFile section */
 		CE7FCE902B6C173300AF4C68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCE8F2B6C173300AF4C68 /* AppDelegate.swift */; };
 		CE7FCE922B6C173300AF4C68 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCE912B6C173300AF4C68 /* SceneDelegate.swift */; };
-		CE7FCE942B6C173300AF4C68 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCE932B6C173300AF4C68 /* ViewController.swift */; };
 		CE7FCE992B6C173600AF4C68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7FCE982B6C173600AF4C68 /* Assets.xcassets */; };
 		CE7FCE9C2B6C173600AF4C68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7FCE9A2B6C173600AF4C68 /* LaunchScreen.storyboard */; };
 		CE7FCEA72B6C196400AF4C68 /* CircleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEA52B6C196400AF4C68 /* CircleViewController.swift */; };
 		CE7FCEA82B6C196400AF4C68 /* CircleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE7FCEA62B6C196400AF4C68 /* CircleViewController.xib */; };
+		CE7FCEAC2B6CE96F00AF4C68 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */; };
+		CE7FCEAE2B6D03BE00AF4C68 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CE7FCE8C2B6C173300AF4C68 /* Ef_RotatingCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ef_RotatingCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE7FCE8F2B6C173300AF4C68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE7FCE912B6C173300AF4C68 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE7FCE932B6C173300AF4C68 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CE7FCE982B6C173600AF4C68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7FCE9B2B6C173600AF4C68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE7FCE9D2B6C173600AF4C68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE7FCEA52B6C196400AF4C68 /* CircleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleViewController.swift; sourceTree = "<group>"; };
 		CE7FCEA62B6C196400AF4C68 /* CircleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleViewController.xib; sourceTree = "<group>"; };
+		CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
+		CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +60,9 @@
 		CE7FCE8E2B6C173300AF4C68 /* Ef_RotatingCircle */ = {
 			isa = PBXGroup;
 			children = (
+				CE7FCEAA2B6CE92800AF4C68 /* Custom elements */,
+				CE7FCEA92B6CE8A700AF4C68 /* Resources */,
 				CE7FCEA32B6C17EB00AF4C68 /* Controllers */,
-				CE7FCE8F2B6C173300AF4C68 /* AppDelegate.swift */,
-				CE7FCE912B6C173300AF4C68 /* SceneDelegate.swift */,
-				CE7FCE932B6C173300AF4C68 /* ViewController.swift */,
-				CE7FCE982B6C173600AF4C68 /* Assets.xcassets */,
-				CE7FCE9A2B6C173600AF4C68 /* LaunchScreen.storyboard */,
-				CE7FCE9D2B6C173600AF4C68 /* Info.plist */,
 			);
 			path = Ef_RotatingCircle;
 			sourceTree = "<group>";
@@ -84,6 +82,27 @@
 				CE7FCEA62B6C196400AF4C68 /* CircleViewController.xib */,
 			);
 			path = Circle;
+			sourceTree = "<group>";
+		};
+		CE7FCEA92B6CE8A700AF4C68 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE7FCE8F2B6C173300AF4C68 /* AppDelegate.swift */,
+				CE7FCE912B6C173300AF4C68 /* SceneDelegate.swift */,
+				CE7FCE9A2B6C173600AF4C68 /* LaunchScreen.storyboard */,
+				CE7FCE9D2B6C173600AF4C68 /* Info.plist */,
+				CE7FCE982B6C173600AF4C68 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CE7FCEAA2B6CE92800AF4C68 /* Custom elements */ = {
+			isa = PBXGroup;
+			children = (
+				CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */,
+				CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */,
+			);
+			path = "Custom elements";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,9 +176,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE7FCE942B6C173300AF4C68 /* ViewController.swift in Sources */,
 				CE7FCE902B6C173300AF4C68 /* AppDelegate.swift in Sources */,
+				CE7FCEAC2B6CE96F00AF4C68 /* RoundView.swift in Sources */,
 				CE7FCEA72B6C196400AF4C68 /* CircleViewController.swift in Sources */,
+				CE7FCEAE2B6D03BE00AF4C68 /* LineView.swift in Sources */,
 				CE7FCE922B6C173300AF4C68 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,7 +321,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 364PACBHLP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Ef_RotatingCircle/Info.plist;
+				INFOPLIST_FILE = Ef_RotatingCircle/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -330,7 +350,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 364PACBHLP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Ef_RotatingCircle/Info.plist;
+				INFOPLIST_FILE = Ef_RotatingCircle/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
