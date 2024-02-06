@@ -9,19 +9,17 @@ import UIKit
 
 class LineView: UIView {
     
-    var roundV: UIView?
-    var startY: CGFloat
+    var lineV: UIView?
+    
     private var timer: Timer = Timer()
     private let lineFrame = UIScreen.main.bounds
     private let widthView: CGFloat = 100
     
     init(startY: CGFloat) {
-        let frame = CGRect(x: lineFrame.width, y: startY, width: widthView, height: 10)
-        self.startY = startY
+        let frame = CGRect(x: 350, y: startY, width: widthView, height: 10)
         super.init(frame: frame)
         
         createView()
-        createRandomNumber()
     }
     
     required init?(coder: NSCoder) {
@@ -30,45 +28,20 @@ class LineView: UIView {
     
     private func createView() {
         
-        roundV = UIView()
-        roundV?.backgroundColor = .blue
-        roundV?.translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .green
         
-        guard let roundV = roundV else { return }
+        lineV = UIView()
+        lineV?.backgroundColor = .blue
+        lineV?.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(roundV)
+        guard let lineV = lineV else { return }
+        
+        addSubview(lineV)
         NSLayoutConstraint.activate([
-            roundV.leadingAnchor.constraint(equalTo: leadingAnchor),
-            roundV.trailingAnchor.constraint(equalTo: trailingAnchor),
-            roundV.topAnchor.constraint(equalTo: topAnchor),
-            roundV.bottomAnchor.constraint(equalTo: bottomAnchor)
+            lineV.leadingAnchor.constraint(equalTo: leadingAnchor),
+            lineV.trailingAnchor.constraint(equalTo: trailingAnchor),
+            lineV.topAnchor.constraint(equalTo: topAnchor),
+            lineV.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-    
-    func createRandomNumber() {
-        let randomInt = Int.random(in: 2..<5)
-        setTimer(time: Double(randomInt))
-    }
-    
-    private func setTimer(time: Double) {
-      
-        timer.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: time, repeats: true) { [weak self] _ in
-       
-            guard let self = self,
-            let roundV = self.roundV else { return }
-           
-            self.translationLine(animatedView: roundV, translation: (self.lineFrame.width + self.widthView), duration: time)
-        }
-    }
-    
-    private func translationLine(animatedView: UIView, translation: CGFloat, duration: Double) {
-        
-        UIView.animate(withDuration: duration, delay: 0.0, options: .curveEaseIn, animations: {
-            animatedView.frame.origin.x += -translation
-        },completion: { _ in
-            animatedView.frame.origin.x += translation
-        }
-        )
     }
 }

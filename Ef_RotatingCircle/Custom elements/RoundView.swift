@@ -13,6 +13,10 @@ class RoundView: UIView {
         case plus, minus
     }
     
+    public override var collisionBoundsType: UIDynamicItemCollisionBoundsType {
+        return .ellipse
+    }
+    
     var roundV: UIView?
     private var valueX: Double = 1.0
     private var valueY: Double = 1.0
@@ -27,8 +31,13 @@ class RoundView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func createView() {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.height / 2
+    }
     
+    private func createView() {
+        
         roundV = UIView()
         roundV?.backgroundColor = .purple
         roundV?.translatesAutoresizingMaskIntoConstraints = false
@@ -42,10 +51,22 @@ class RoundView: UIView {
             roundV.topAnchor.constraint(equalTo: topAnchor),
             roundV.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        roundV.layer.cornerRadius = bounds.width / 2
+        layer.masksToBounds = true
+        
+        let line = UIView()
+        line.backgroundColor = .red
+        line.translatesAutoresizingMaskIntoConstraints = false
+        
+        roundV.addSubview(line)
+        NSLayoutConstraint.activate([
+            line.leadingAnchor.constraint(equalTo: roundV.leadingAnchor, constant: 10),
+            line.trailingAnchor.constraint(equalTo: roundV.trailingAnchor, constant: -10),
+            line.centerYAnchor.constraint(equalTo: roundV.centerYAnchor),
+            line.heightAnchor.constraint(equalToConstant: 10)
+        ])
     }
     
-    func setScale(_ event: RoundScale) {
+    func setScale(_ event: RoundScale, completion: @escaping (CGRect) -> Void) {
         switch event {
         case .plus:
             valueX += 0.1
@@ -55,23 +76,27 @@ class RoundView: UIView {
             valueY -= 0.1
         }
         
-       scaleView(newX: valueX, newY: valueY)
+        scaleView(newX: valueX, newY: valueY) {
+            completion(self.bounds)
+        }
     }
     
-   private func scaleView(newX: Double, newY: Double) {
+    private func scaleView(newX: Double, newY: Double, completion: @escaping () -> Void) {
         UIView.animate(withDuration: 0.0,
                        animations: { [weak self] in
             guard let self = self else { return }
             self.roundV?.transform = CGAffineTransform(scaleX: newX, y: newY)
         },
                        completion: { _ in
-            
+            completion()
         })
     }
     
-    func setStartValue() {
+    func setStartValue(completion: @escaping () -> Void) {
         valueX = 1.0
         valueY = 1.0
-        scaleView(newX: valueX, newY: valueY)
+        scaleView(newX: valueX, newY: valueY) {
+            completion()
+        }
     }
 }

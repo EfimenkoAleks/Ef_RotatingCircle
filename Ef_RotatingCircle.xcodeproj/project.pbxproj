@@ -15,6 +15,8 @@
 		CE7FCEA82B6C196400AF4C68 /* CircleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE7FCEA62B6C196400AF4C68 /* CircleViewController.xib */; };
 		CE7FCEAC2B6CE96F00AF4C68 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */; };
 		CE7FCEAE2B6D03BE00AF4C68 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */; };
+		CE7FCEB82B7073A900AF4C68 /* LineAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEB72B7073A900AF4C68 /* LineAnimator.swift */; };
+		CE7FCEBA2B71655600AF4C68 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEB92B71655600AF4C68 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		CE7FCEA62B6C196400AF4C68 /* CircleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleViewController.xib; sourceTree = "<group>"; };
 		CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
 		CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
+		CE7FCEB72B7073A900AF4C68 /* LineAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineAnimator.swift; sourceTree = "<group>"; };
+		CE7FCEB92B71655600AF4C68 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,7 @@
 				CE7FCE9A2B6C173600AF4C68 /* LaunchScreen.storyboard */,
 				CE7FCE9D2B6C173600AF4C68 /* Info.plist */,
 				CE7FCE982B6C173600AF4C68 /* Assets.xcassets */,
+				CE7FCEB92B71655600AF4C68 /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -101,6 +106,7 @@
 			children = (
 				CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */,
 				CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */,
+				CE7FCEB72B7073A900AF4C68 /* LineAnimator.swift */,
 			);
 			path = "Custom elements";
 			sourceTree = "<group>";
@@ -180,7 +186,9 @@
 				CE7FCEAC2B6CE96F00AF4C68 /* RoundView.swift in Sources */,
 				CE7FCEA72B6C196400AF4C68 /* CircleViewController.swift in Sources */,
 				CE7FCEAE2B6D03BE00AF4C68 /* LineView.swift in Sources */,
+				CE7FCEB82B7073A900AF4C68 /* LineAnimator.swift in Sources */,
 				CE7FCE922B6C173300AF4C68 /* SceneDelegate.swift in Sources */,
+				CE7FCEBA2B71655600AF4C68 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
