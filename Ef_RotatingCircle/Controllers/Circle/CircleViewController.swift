@@ -25,6 +25,7 @@ class CircleViewController: SM_BaseViewController {
     private var roundWidth: CGFloat = 100.0
     private let startRoundWidth: CGFloat = 100.0
     private let helper: CircleHelper = CircleHelper()
+    private var startRectRound: CGRect?
     
     lazy var behaviorRound: UIDynamicItemBehavior = { [unowned self] in
         let amin = UIDynamicItemBehavior()
@@ -66,7 +67,7 @@ class CircleViewController: SM_BaseViewController {
 private extension CircleViewController {
     //MARK: - SetupUI
     func setup() {
-        view.backgroundColor = .white
+    
         createRightNavBarItemWithText(title: "Restart Score", hightFont: 17)
         addRoundView()
         addLineView()
@@ -75,12 +76,10 @@ private extension CircleViewController {
                   let item2 = self.lineAnimator2.lineView else { return }
             self.addBehaviour()
             
-            self.lineAnimator.resumeMovement(item1, animator: self.animator) { [weak self] newAnimator in
-                self?.animator = newAnimator
+            self.lineAnimator.resumeMovement(item1, animator: self.animator) { _ in
             }
             
-            self.lineAnimator2.resumeMovement(item2, animator: self.animator) { [weak self] newAnimator in
-                self?.animator = newAnimator
+            self.lineAnimator2.resumeMovement(item2, animator: self.animator) { _ in
             }
     }
     
@@ -128,19 +127,21 @@ private extension CircleViewController {
         containerView.isUserInteractionEnabled = false
         
         if let item = lineAnimator.lineView, event === item {
-            self.lineAnimator.resumeMovement(item, animator: animator) { [weak self] newAnimator in
-                self?.animator = newAnimator
+            self.lineAnimator.resumeMovement(item, animator: animator) { [weak self] _ in
+                self?.collision.addItem(item)
             }
         } else if  let item = lineAnimator2.lineView, event === item {
-            self.lineAnimator2.resumeMovement(item, animator: animator) { [weak self] newAnimator in
-                self?.animator = newAnimator
+            self.lineAnimator2.resumeMovement(item, animator: animator) { [weak self] _ in
+                self?.collision.addItem(item)
             }
         }
         containerView.isUserInteractionEnabled = true
     }
     
     func addRoundView() {
-        roundView = RoundView(frame: CGRect(x: view.bounds.size.width / 2 - (self.roundWidth / 2), y: view.bounds.size.height / 2 - (self.roundWidth / 2), width: self.roundWidth, height: self.roundWidth))
+        startRectRound = CGRect(x: view.bounds.size.width / 2 - (self.roundWidth / 2), y: view.bounds.size.height / 2 - (self.roundWidth / 2), width: self.roundWidth, height: self.roundWidth)
+        guard let startRectRound = startRectRound else { return }
+        roundView = RoundView(frame: startRectRound)
         guard let roundView = roundView else { return }
         view.addSubview(roundView)
         
@@ -149,14 +150,14 @@ private extension CircleViewController {
     
     func addLineView() {
         let frame = UIScreen.main.bounds
-        lineAnimator.lineView = LineView(startY: (frame.height / 2 - 62))
-        lineAnimator2.lineView = LineView(startY: (frame.height / 2 + 52))
+        lineAnimator.lineView = LineView(startY: (frame.height / 2 - 67))
+        lineAnimator2.lineView = LineView(startY: (frame.height / 2 + 55))
         guard let lineView1 = lineAnimator.lineView,
               let lineView2 = lineAnimator2.lineView else { return }
         view.addSubview(lineView1)
         view.addSubview(lineView2)
-        lineAnimator.startRect = CGRect(x: frame.width, y: (frame.height / 2 - 62), width: 100, height: 10)
-        lineAnimator2.startRect = CGRect(x: frame.width, y: (frame.height / 2 + 52), width: 100, height: 10)
+        lineAnimator.startRect = CGRect(x: frame.width, y: (frame.height / 2 - 67), width: 100, height: 10)
+        lineAnimator2.startRect = CGRect(x: frame.width, y: (frame.height / 2 + 55), width: 100, height: 10)
     }
     
     func vibrationOn() {
@@ -179,11 +180,11 @@ private extension CircleViewController {
     }
     
     func restartRound() {
-        guard let roundView = roundView else { return }
+        guard let roundView = roundView,
+              let startRectRound = startRectRound else { return }
         removeBehaviorFromRound()
-        
-        let startRect = CGRect(x: view.center.x - startRoundWidth / 2, y: view.center.y - startRoundWidth / 2, width: startRoundWidth, height: startRoundWidth)
         roundWidth = startRoundWidth
+        let startRect = startRectRound
         roundView.frame = startRect
         animator.updateItem(usingCurrentState: roundView)
         
@@ -207,6 +208,7 @@ extension CircleViewController: UICollisionBehaviorDelegate {
         
         [item1, item2].forEach { event in
             if event.isKind(of: LineView.self) {
+                collision.removeItem(event)
                 collisionWithItems(event)
             }
         }

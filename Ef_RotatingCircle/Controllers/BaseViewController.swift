@@ -8,6 +8,12 @@
 import UIKit
 
 class SM_BaseViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = .white
+    }
   
     func presentAlert(title: String = "", message: String = "") {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

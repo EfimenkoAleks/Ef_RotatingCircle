@@ -11,7 +11,6 @@ class LineView: UIView {
     
     var lineV: UIView?
     
-    private var timer: Timer = Timer()
     private let lineFrame = UIScreen.main.bounds
     
     init(startY: CGFloat) {

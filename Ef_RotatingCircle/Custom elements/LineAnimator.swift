@@ -17,7 +17,6 @@ class LineAnimator: NSObject {
     
     private func createRandomNumber(completion: @escaping () -> Void) {
         let randomInt = Int.random(in: 1..<4)
-        print("\(self) --- \(randomInt)")
         setTimer(time: Double(randomInt)) {
             completion()
         }
@@ -46,25 +45,22 @@ class LineAnimator: NSObject {
         if let item = lineView {
             if gravity != nil {
                 gravity?.removeItem(item)
-                animator.removeBehavior(gravity!)
-        //        animator.updateItem(usingCurrentState: item)
             }
+     
             item.alpha = 0
            
-            
             createRandomNumber { [weak self] in
                 item.frame = CGRect(x: startRect.midX, y: startRect.midY, width: startRect.width, height: startRect.height)
                 item.alpha = 1
                 if self?.gravity == nil {
                     self?.gravity = self?.addGravityForItem(item)
+                    animator.addBehavior(self!.gravity!)
                 } else {
                     animator.updateItem(usingCurrentState: item)
                     self?.gravity?.addItem(item)
                 }
-                
-                guard let self = self, let gravity = self.gravity else { return }
-                animator.addBehavior(gravity)
-           //     animator.updateItem(usingCurrentState: item)
+         
+                self?.lineView?.isUserInteractionEnabled = true
                 completion(animator)
             }
         } else {
