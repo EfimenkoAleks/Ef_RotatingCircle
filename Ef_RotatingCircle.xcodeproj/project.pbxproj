@@ -17,6 +17,9 @@
 		CE7FCEAE2B6D03BE00AF4C68 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */; };
 		CE7FCEB82B7073A900AF4C68 /* LineAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEB72B7073A900AF4C68 /* LineAnimator.swift */; };
 		CE7FCEBA2B71655600AF4C68 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7FCEB92B71655600AF4C68 /* Extensions.swift */; };
+		CEBD801B2B731F0D00FA7AE3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD801A2B731F0D00FA7AE3 /* BaseViewController.swift */; };
+		CEBD801D2B73213D00FA7AE3 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD801C2B73213D00FA7AE3 /* RoundedButton.swift */; };
+		CEBD801F2B73227500FA7AE3 /* CircleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD801E2B73227500FA7AE3 /* CircleHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 		CE7FCEB72B7073A900AF4C68 /* LineAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineAnimator.swift; sourceTree = "<group>"; };
 		CE7FCEB92B71655600AF4C68 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		CEBD801A2B731F0D00FA7AE3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		CEBD801C2B73213D00FA7AE3 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		CEBD801E2B73227500FA7AE3 /* CircleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				CE7FCEA42B6C180000AF4C68 /* Circle */,
+				CEBD801A2B731F0D00FA7AE3 /* BaseViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -84,6 +91,7 @@
 			children = (
 				CE7FCEA52B6C196400AF4C68 /* CircleViewController.swift */,
 				CE7FCEA62B6C196400AF4C68 /* CircleViewController.xib */,
+				CEBD801E2B73227500FA7AE3 /* CircleHelper.swift */,
 			);
 			path = Circle;
 			sourceTree = "<group>";
@@ -107,6 +115,7 @@
 				CE7FCEAB2B6CE96F00AF4C68 /* RoundView.swift */,
 				CE7FCEAD2B6D03BE00AF4C68 /* LineView.swift */,
 				CE7FCEB72B7073A900AF4C68 /* LineAnimator.swift */,
+				CEBD801C2B73213D00FA7AE3 /* RoundedButton.swift */,
 			);
 			path = "Custom elements";
 			sourceTree = "<group>";
@@ -186,7 +195,10 @@
 				CE7FCEAC2B6CE96F00AF4C68 /* RoundView.swift in Sources */,
 				CE7FCEA72B6C196400AF4C68 /* CircleViewController.swift in Sources */,
 				CE7FCEAE2B6D03BE00AF4C68 /* LineView.swift in Sources */,
+				CEBD801D2B73213D00FA7AE3 /* RoundedButton.swift in Sources */,
+				CEBD801F2B73227500FA7AE3 /* CircleHelper.swift in Sources */,
 				CE7FCEB82B7073A900AF4C68 /* LineAnimator.swift in Sources */,
+				CEBD801B2B731F0D00FA7AE3 /* BaseViewController.swift in Sources */,
 				CE7FCE922B6C173300AF4C68 /* SceneDelegate.swift in Sources */,
 				CE7FCEBA2B71655600AF4C68 /* Extensions.swift in Sources */,
 			);

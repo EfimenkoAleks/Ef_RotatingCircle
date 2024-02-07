@@ -13,10 +13,9 @@ class LineView: UIView {
     
     private var timer: Timer = Timer()
     private let lineFrame = UIScreen.main.bounds
-    private let widthView: CGFloat = 100
     
     init(startY: CGFloat) {
-        let frame = CGRect(x: 350, y: startY, width: widthView, height: 10)
+        let frame = CGRect(x: lineFrame.width, y: startY, width: lineFrame.width / 3, height: 10)
         super.init(frame: frame)
         
         createView()

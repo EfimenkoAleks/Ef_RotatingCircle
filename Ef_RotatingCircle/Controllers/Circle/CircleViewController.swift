@@ -7,28 +7,37 @@
 
 import UIKit
 
-class CircleViewController: UIViewController {
+class CircleViewController: SM_BaseViewController {
     
+    enum RoundScale {
+        case plus, minus
+    }
+    
+    //MARK: - properties
     @IBOutlet private weak var containerView: UIView!
-    @IBOutlet private weak var buttonsStack: UIStackView!
-    @IBOutlet private weak var plusButton: UIButton!
-    @IBOutlet private weak var minusButton: UIButton!
+    @IBOutlet private weak var plusButton: RoundedButton!
+    @IBOutlet private weak var minusButton: RoundedButton!
     
     private var roundView: RoundView?
     private let lineAnimator: LineAnimator = LineAnimator()
     private let lineAnimator2: LineAnimator = LineAnimator()
     private var colisionCount: Int = 0
-    private let frame = UIScreen.main.bounds
     private var roundWidth: CGFloat = 100.0
+    private let startRoundWidth: CGFloat = 100.0
+    private let helper: CircleHelper = CircleHelper()
+    
+    lazy var behaviorRound: UIDynamicItemBehavior = { [unowned self] in
+        let amin = UIDynamicItemBehavior()
+        return amin
+    }()
     
     lazy var animator: UIDynamicAnimator = { [unowned self] in
-        let amin = UIDynamicAnimator(referenceView: self.view)
-        return amin
+        let anim = UIDynamicAnimator(referenceView: self.view)
+        return anim
     }()
     
     lazy var collision: UICollisionBehavior = { [unowned self] in
         let cl = UICollisionBehavior()
-        //   cl.translatesReferenceBoundsIntoBoundary = true
         cl.collisionDelegate = self
         return cl
     }()
@@ -39,19 +48,18 @@ class CircleViewController: UIViewController {
         setup()
     }
     
-    //MARK: - didTabPlusButton
+    //MARK: - actions
     @IBAction private func didTabPlusButton(_ sender: UIButton) {
-        roundWidth += 20
-        let point = CGPoint(x: view.center.x - roundView!.frame.width / 2, y: view.center.y - roundView!.frame.height / 2)
-        roundView!.frame = CGRect(origin: point, size: CGSize(width: roundWidth, height: roundWidth))
-        animator.updateItem(usingCurrentState: roundView!)
+        setScaleRound(.plus)
     }
     
     @IBAction private func didTapMinusButton(_ sender: UIButton) {
-        roundWidth -= 20
-        let point = CGPoint(x: view.center.x - roundView!.frame.width / 2, y: view.center.y - roundView!.frame.height / 2)
-        roundView!.frame = CGRect(origin: point, size: CGSize(width: roundWidth, height: roundWidth))
-        animator.updateItem(usingCurrentState: roundView!)
+        setScaleRound(.minus)
+    }
+    
+    override func sm_didTapRightNavButton() {
+        colisionCount = 0
+        restartRound()
     }
 }
 
@@ -59,15 +67,13 @@ private extension CircleViewController {
     //MARK: - SetupUI
     func setup() {
         view.backgroundColor = .white
-        createRightNavBarItemWithText(title: "Restart", hightFont: 17)
+        createRightNavBarItemWithText(title: "Restart Score", hightFont: 17)
         addRoundView()
         addLineView()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self = self,
-                  let item1 = self.lineAnimator.lineView,
+  
+            guard let item1 = self.lineAnimator.lineView,
                   let item2 = self.lineAnimator2.lineView else { return }
-            self.addCollisionBehaviour()
+            self.addBehaviour()
             
             self.lineAnimator.resumeMovement(item1, animator: self.animator) { [weak self] newAnimator in
                 self?.animator = newAnimator
@@ -76,48 +82,45 @@ private extension CircleViewController {
             self.lineAnimator2.resumeMovement(item2, animator: self.animator) { [weak self] newAnimator in
                 self?.animator = newAnimator
             }
+    }
+    
+    func setScaleRound(_ scale: RoundScale) {
+        switch scale {
+        case .plus:
+            roundWidth += 20
+        case .minus:
+            roundWidth -= 20
         }
-        
+        removeBehaviorFromRound()
+        roundView!.frame = CGRect(x: view.bounds.size.width / 2 - (self.roundWidth / 2), y: view.bounds.size.height / 2 - (self.roundWidth / 2), width: self.roundWidth, height: self.roundWidth)
+        animator.updateItem(usingCurrentState: roundView!)
+        addBehaviorToRound()
     }
-    
-    func addDynamicBehaviorForItem(_ items: [UIView]) -> UIDynamicItemBehavior {
-        let behavior = UIDynamicItemBehavior(items: items)
-        behavior.resistance = 0
-        behavior.angularResistance = 0
-        behavior.allowsRotation = false
-        //     behavior.isAnchored = true
-        
-        return behavior
-    }
-    
-    func addDynamicBehaviorForRound(_ items: [UIView]) -> UIDynamicItemBehavior {
-        let behavior = UIDynamicItemBehavior(items: items)
-        behavior.resistance = 0
-        behavior.density = 1
-        behavior.angularResistance = 0
-        behavior.allowsRotation = true
-        behavior.isAnchored = true
-        
-        return behavior
-    }
-    
-    func addCollisionBehaviour() {
+   
+    func addBehaviour() {
         guard let roundView = roundView,
               let line1 = lineAnimator.lineView,
               let line2 = lineAnimator2.lineView else { return }
+        
+        let behavior = helper.addDynamicBehaviorForItem([line1, line2])
+        animator.addBehavior(behavior)
+        behaviorRound = helper.addDynamicBehaviorForRound([roundView])
+        animator.addBehavior(behaviorRound)
         
         collision.addItem(roundView)
         collision.addItem(line1)
         collision.addItem(line2)
         
-        let behavior = addDynamicBehaviorForItem([line1, line2])
-        animator.addBehavior(behavior)
-        let behaviorRound = addDynamicBehaviorForRound([roundView])
-        animator.addBehavior(behaviorRound)
+        collision.action = { [unowned self] in
+            guard let roundView = self.roundView else { return }
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            roundView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 0.999 * 2)
+            CATransaction.commit()
+        }
         
-        //        // add boundaries for lines
+        // add boundaries for lines
         collision.addBoundary(withIdentifier: "boundary_side_left".nsCopying, from: view.bounds.origin, to: view.bounds.botLeft)
-        
         animator.addBehavior(collision)
     }
     
@@ -137,68 +140,54 @@ private extension CircleViewController {
     }
     
     func addRoundView() {
-        roundView = RoundView(frame: CGRect(x: view.center.x - roundWidth / 2, y: view.center.y - roundWidth / 2, width: roundWidth, height: roundWidth))
+        roundView = RoundView(frame: CGRect(x: view.bounds.size.width / 2 - (self.roundWidth / 2), y: view.bounds.size.height / 2 - (self.roundWidth / 2), width: self.roundWidth, height: self.roundWidth))
         guard let roundView = roundView else { return }
         view.addSubview(roundView)
         
-        rotationRoundV()
+        helper.rotationRoundV(roundedView: roundView)
     }
     
     func addLineView() {
+        let frame = UIScreen.main.bounds
         lineAnimator.lineView = LineView(startY: (frame.height / 2 - 62))
         lineAnimator2.lineView = LineView(startY: (frame.height / 2 + 52))
         guard let lineView1 = lineAnimator.lineView,
               let lineView2 = lineAnimator2.lineView else { return }
         view.addSubview(lineView1)
         view.addSubview(lineView2)
-        lineAnimator.startRect = CGRect(x: self.frame.width, y: (self.frame.height / 2 - 62), width: 100, height: 10)
-        lineAnimator2.startRect = CGRect(x: self.frame.width, y: (self.frame.height / 2 + 52), width: 100, height: 10)
+        lineAnimator.startRect = CGRect(x: frame.width, y: (frame.height / 2 - 62), width: 100, height: 10)
+        lineAnimator2.startRect = CGRect(x: frame.width, y: (frame.height / 2 + 52), width: 100, height: 10)
     }
     
     func vibrationOn() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
     }
     
-    func rotationRoundV() {
+    func removeBehaviorFromRound() {
+        guard let roundView = roundView else { return }
+        collision.removeItem(roundView)
+        animator.removeBehavior(collision)
+        animator.removeBehavior(behaviorRound)
+    }
+    
+    func addBehaviorToRound() {
+        guard let roundView = roundView else { return }
+        behaviorRound = helper.addDynamicBehaviorForRound([roundView])
+        collision.addItem(roundView)
+        animator.addBehavior(behaviorRound)
+        animator.addBehavior(collision)
+    }
+    
+    func restartRound() {
+        guard let roundView = roundView else { return }
+        removeBehaviorFromRound()
         
+        let startRect = CGRect(x: view.center.x - startRoundWidth / 2, y: view.center.y - startRoundWidth / 2, width: startRoundWidth, height: startRoundWidth)
+        roundWidth = startRoundWidth
+        roundView.frame = startRect
+        animator.updateItem(usingCurrentState: roundView)
         
-        UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear) { [weak self] in
-            guard let self = self,
-                  let roundView = self.roundView else { return }
-            
-            roundView.transform = CGAffineTransform.identity
-            roundView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 0.999)
-        } completion: { _ in
-            UIView.animate(withDuration: 3.0, delay: 0.0, options: .curveLinear) { [weak self] in
-                guard let self = self,
-                      let roundView = self.roundView else { return }
-                
-                roundView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 0.999 * 2)
-            } completion: { [weak self] _ in
-                guard let self = self else { return }
-                self.rotationRoundV()
-            }
-        }
-    }
-    
-    func presentAlert(title: String = "", message: String = "") {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        self.present(alert, animated: true)
-    }
-    
-    func createRightNavBarItemWithText(title: String, hightFont: CGFloat) {
-        let font = UIFont.systemFont(ofSize: hightFont, weight: .medium)
-        let style = UINavigationBarAppearance()
-        style.buttonAppearance.normal.titleTextAttributes = [.font: font]
-        navigationItem.standardAppearance = style
-        let rightBarButtonItem = UIBarButtonItem.init(title: title, style: .plain, target: self, action: #selector(sm_didTapRightNavButton))
-        rightBarButtonItem.tintColor = .black
-        navigationItem.rightBarButtonItem = rightBarButtonItem
-    }
-    
-    @objc func sm_didTapRightNavButton() {
-        colisionCount = 0
+        addBehaviorToRound()
     }
 }
 
@@ -214,9 +203,6 @@ extension CircleViewController: UICollisionBehaviorDelegate {
             if colisionCount == 5 {
                 presentAlert(title: "Game over")
             }
-            let startRect = CGRect(x: view.center.x - 50, y: view.center.y - 50, width: 100, height: 100)
-            roundView!.frame = startRect
-            animator.updateItem(usingCurrentState: roundView!)
         }
         
         [item1, item2].forEach { event in
@@ -230,15 +216,5 @@ extension CircleViewController: UICollisionBehaviorDelegate {
         print(p)
         
         collisionWithItems(item)
-    }
-}
-
-extension CircleViewController: UIDynamicAnimatorDelegate {
-    func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
-        print("dynamicAnimatorDidPause")
-    }
-    
-    func dynamicAnimatorWillResume(_ animator: UIDynamicAnimator) {
-        print("dynamicAnimatorWillResume")
     }
 }

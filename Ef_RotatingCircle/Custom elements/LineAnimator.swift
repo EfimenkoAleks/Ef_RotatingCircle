@@ -17,6 +17,7 @@ class LineAnimator: NSObject {
     
     private func createRandomNumber(completion: @escaping () -> Void) {
         let randomInt = Int.random(in: 1..<4)
+        print("\(self) --- \(randomInt)")
         setTimer(time: Double(randomInt)) {
             completion()
         }
@@ -34,7 +35,7 @@ class LineAnimator: NSObject {
         let gravity = UIGravityBehavior()
         gravity.addItem(item)
         gravity.gravityDirection = CGVectorMake(-1,0)
-        gravity.magnitude = 0.1
+        gravity.magnitude = 0.3
         
         return gravity
     }
@@ -42,18 +43,28 @@ class LineAnimator: NSObject {
     func resumeMovement(_ event: UIDynamicItem, animator: UIDynamicAnimator, completion: @escaping (UIDynamicAnimator) -> Void) {
         guard let startRect = startRect else { return }
         
-        if let item = lineView, event === item {
+        if let item = lineView {
             if gravity != nil {
+                gravity?.removeItem(item)
                 animator.removeBehavior(gravity!)
+        //        animator.updateItem(usingCurrentState: item)
             }
-            //        lineAnimator.lineView?.alpha = 0
-            item.frame = CGRect(x: startRect.midX, y: startRect.midY, width: startRect.width, height: startRect.height)
-            item.alpha = 1
-            gravity = addGravityForItem(item)
-            animator.addBehavior(gravity!)
-            animator.updateItem(usingCurrentState: item)
+            item.alpha = 0
+           
             
-            createRandomNumber {
+            createRandomNumber { [weak self] in
+                item.frame = CGRect(x: startRect.midX, y: startRect.midY, width: startRect.width, height: startRect.height)
+                item.alpha = 1
+                if self?.gravity == nil {
+                    self?.gravity = self?.addGravityForItem(item)
+                } else {
+                    animator.updateItem(usingCurrentState: item)
+                    self?.gravity?.addItem(item)
+                }
+                
+                guard let self = self, let gravity = self.gravity else { return }
+                animator.addBehavior(gravity)
+           //     animator.updateItem(usingCurrentState: item)
                 completion(animator)
             }
         } else {

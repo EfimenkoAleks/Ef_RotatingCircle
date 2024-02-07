@@ -9,10 +9,6 @@ import UIKit
 
 class RoundView: UIView {
     
-    enum RoundScale {
-        case plus, minus
-    }
-    
     public override var collisionBoundsType: UIDynamicItemCollisionBoundsType {
         return .ellipse
     }
@@ -64,39 +60,5 @@ class RoundView: UIView {
             line.centerYAnchor.constraint(equalTo: roundV.centerYAnchor),
             line.heightAnchor.constraint(equalToConstant: 10)
         ])
-    }
-    
-    func setScale(_ event: RoundScale, completion: @escaping (CGRect) -> Void) {
-        switch event {
-        case .plus:
-            valueX += 0.1
-            valueY += 0.1
-        case .minus:
-            valueX -= 0.1
-            valueY -= 0.1
-        }
-        
-        scaleView(newX: valueX, newY: valueY) {
-            completion(self.bounds)
-        }
-    }
-    
-    private func scaleView(newX: Double, newY: Double, completion: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.0,
-                       animations: { [weak self] in
-            guard let self = self else { return }
-            self.roundV?.transform = CGAffineTransform(scaleX: newX, y: newY)
-        },
-                       completion: { _ in
-            completion()
-        })
-    }
-    
-    func setStartValue(completion: @escaping () -> Void) {
-        valueX = 1.0
-        valueY = 1.0
-        scaleView(newX: valueX, newY: valueY) {
-            completion()
-        }
     }
 }

@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircleViewController" customModule="Ef_RotatingCircle" customModuleProvider="target">
             <connections>
-                <outlet property="buttonsStack" destination="dXq-ow-k6u" id="Jrg-Xk-qXf"/>
                 <outlet property="containerView" destination="eZt-he-o7q" id="Ghg-Qt-UXo"/>
                 <outlet property="minusButton" destination="YRY-Jg-eZt" id="yeT-pA-fUH"/>
                 <outlet property="plusButton" destination="Iah-hS-aa8" id="45J-gp-tXB"/>
@@ -29,7 +28,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="dXq-ow-k6u">
                             <rect key="frame" x="20" y="705" width="353" height="44"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iah-hS-aa8">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iah-hS-aa8" customClass="RoundedButton" customModule="Ef_RotatingCircle" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="44"/>
                                     <color key="backgroundColor" systemColor="systemTealColor"/>
                                     <state key="normal" title="Button"/>
@@ -41,7 +40,7 @@
                                         <action selector="didTabPlusButton:" destination="-1" eventType="touchUpInside" id="ucX-gH-ln2"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YRY-Jg-eZt">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YRY-Jg-eZt" customClass="RoundedButton" customModule="Ef_RotatingCircle" customModuleProvider="target">
                                     <rect key="frame" x="196.66666666666663" y="0.0" width="156.33333333333337" height="44"/>
                                     <color key="backgroundColor" systemColor="systemMintColor"/>
                                     <state key="normal" title="Button"/>
